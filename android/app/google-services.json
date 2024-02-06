@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "749980724009",
-    "project_id": "fir-conadd",
-    "storage_bucket": "fir-conadd.appspot.com"
+    "project_number": "279938936500",
+    "project_id": "goods-shipping-company",
+    "storage_bucket": "goods-shipping-company.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:749980724009:android:950a6d35a67d1f50102538",
+        "mobilesdk_app_id": "1:279938936500:android:b7323dbcdb39a49422b1e1",
         "android_client_info": {
           "package_name": "com.example.compan"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyB2_hxUf347G-7ABJQfI-F8H0Z61Xbs-00"
+          "current_key": "AIzaSyAKHNA0RmZ4gmdh6X4W4kHfInBLVRYphko"
         }
       ],
       "services": {
