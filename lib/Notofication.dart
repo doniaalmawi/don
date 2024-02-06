@@ -2,12 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-void main() {
-  SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
-  runApp(const menu());
-}
-
 class menu extends StatelessWidget {
   const menu({super.key});
 
@@ -83,23 +77,19 @@ class _MyHomePageState extends State<MyHomePage> {
                 physics: const NeverScrollableScrollPhysics(),
                 crossAxisCount: 2,
                 crossAxisSpacing: 40,
-                mainAxisSpacing: 30,
+                mainAxisSpacing: 50,
                 children: [
                   itemDashboard(' Addresses', Icons.location_on,
                       const Color.fromARGB(-23, 36, 130, 111)),
-                  itemDashboard('Shipping ', CupertinoIcons.graph_circle,
+                  itemDashboard('Requests ', Icons.shopping_cart,
                       const Color.fromARGB(-23, 36, 130, 111)),
-                  itemDashboard('Audience', CupertinoIcons.person_2,
+                  itemDashboard('prices', CupertinoIcons.money_dollar,
                       const Color.fromARGB(-23, 36, 130, 111)),
-                  itemDashboard('Comments', CupertinoIcons.chat_bubble_2,
+                  itemDashboard('tracking ', Icons.flight_takeoff_rounded,
                       const Color.fromARGB(-23, 36, 130, 111)),
-                  itemDashboard('Revenue', CupertinoIcons.money_dollar_circle,
+                  itemDashboard('Settings', Icons.settings,
                       const Color.fromARGB(-23, 36, 130, 111)),
-                  itemDashboard('Upload', CupertinoIcons.add_circled,
-                      const Color.fromARGB(-23, 36, 130, 111)),
-                  itemDashboard('About', CupertinoIcons.question_circle,
-                      const Color.fromARGB(-23, 36, 130, 111)),
-                  itemDashboard('Contact', CupertinoIcons.phone,
+                  itemDashboard('About us', Icons.people_alt_outlined,
                       const Color.fromARGB(-23, 36, 130, 111)),
                 ],
               ),

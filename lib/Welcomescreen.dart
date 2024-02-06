@@ -1,5 +1,5 @@
-import 'package:compan/Ades.dart';
-import 'package:compan/Notofication.dart';
+import 'package:compan/aboutus.dart';
+
 import 'package:flutter/material.dart';
 
 class welcomescreen extends StatelessWidget {
@@ -115,7 +115,7 @@ class welcomescreen extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ades(),
+                      builder: (context) => aboutus(),
                     ),
                   );
                 },
