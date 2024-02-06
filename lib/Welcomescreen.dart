@@ -1,6 +1,5 @@
 import 'package:compan/Ades.dart';
 import 'package:compan/Notofication.dart';
-import 'package:compan/homescreen.dart';
 import 'package:flutter/material.dart';
 
 class welcomescreen extends StatelessWidget {

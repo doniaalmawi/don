@@ -1,4 +1,4 @@
-import 'package:compan/Welcomescreen.dart';
+import 'package:compan/Ades.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
       ),
-      home: welcomescreen(),
+      home: ades(),
     );
   }
 }

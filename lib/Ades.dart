@@ -100,23 +100,25 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       ],
                     ),
-                    child: Row(
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Image.asset(
-                          'assest/ae.png',
-                          width: 60,
-                          height: 60,
+                          'assest/a.png',
+                          width: 70,
+                          height: 70,
                         ),
-                        const SizedBox(width: 10),
-                        Text(
-                          'US shipping rates\n1kg = 14usd',
-                          style:
-                              Theme.of(context).textTheme.subtitle1?.copyWith(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                          textAlign: TextAlign.center,
+                        const SizedBox(height: 10),
+                        Flexible(
+                          child: Text(
+                            'US shipping rates \n 1kg = 14usd',
+                            style:
+                                Theme.of(context).textTheme.subtitle1?.copyWith(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       ],
                     ),
@@ -134,32 +136,24 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       ],
                     ),
-                    child: Row(
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Align(
-                          alignment: Alignment.topLeft,
+                        Image.asset(
+                          'assest/u.png',
+                          width: 70,
+                          height: 70,
+                        ),
+                        const SizedBox(height: 10),
+                        Flexible(
                           child: Text(
-                            ' \t \n UAE shipping rates',
+                            '   • The price per kilo is 8 USD \n  • The weight system starts \n from 100 grams.  \n  • The assembly service \n is free for all subscribers \n  • Insurance is also free.',
                             style:
                                 Theme.of(context).textTheme.subtitle1?.copyWith(
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold,
                                     ),
-                            textAlign: TextAlign.left,
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            '  \n \n \n \n   • The price per kilo is 8 USD \n  • The weight system starts \n     from 100 grams. \n  • Insurance is also free. \n  • The assembly service is free \n    for all subscribers .',
-                            style:
-                                Theme.of(context).textTheme.subtitle1?.copyWith(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                            textAlign: TextAlign.left,
+                            textAlign: TextAlign.center,
                           ),
                         ),
                       ],
@@ -169,7 +163,6 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
           ),
-          const SizedBox(height: 20),
         ],
       ),
     );

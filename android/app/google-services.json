@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "749980724009",
+    "project_id": "fir-conadd",
+    "storage_bucket": "fir-conadd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:749980724009:android:950a6d35a67d1f50102538",
+        "android_client_info": {
+          "package_name": "com.example.compan"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2_hxUf347G-7ABJQfI-F8H0Z61Xbs-00"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
