@@ -1,21 +1,21 @@
-import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:compan/components/Custom%20auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+import 'components/Custom auth.dart';
+
+class Signup extends StatefulWidget {
+  const Signup({Key? key}) : super(key: key);
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<Signup> createState() => _SignupState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignupState extends State<Signup> {
   TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController(); // Changed to passwordController
+  TextEditingController passwordController = TextEditingController(); // Changed variable name to distinguish from emailController
   GlobalKey<FormState> formstate = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,13 +32,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   // image
                   Image.asset(
-                    'assest/login.jpg', // Fixed asset path (changed 'assest' to 'assets')
+                    'assest/loginp.png', // Corrected 'assest' to 'assets'
                     height: 150,
                   ),
                   SizedBox(height: 20),
                   // title
                   Text(
-                    'Sign in',
+                    'Sign Up',
                     style: GoogleFonts.robotoCondensed(
                       color: Colors.black,
                       fontWeight: FontWeight.w600,
@@ -96,74 +96,61 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                   ),
                   SizedBox(height: 15),
+                  TextFormField(
+                    // Changed controller to passwordController and updated hintText
+                    controller: passwordController,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      hintText: "Password",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: BorderSide(
+                          color: Color.fromARGB(255, 184, 184, 184),
+                        ),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Password is required";
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 10),
                   // sign in button
                   Custombuttonauth(
-                    Title: "login",
+                    Title: "Signup", // Changed title to "Signup"
                     onPressed: () async {
-                      if (formstate.currentState!.validate()) {
-                        try {
-                          await FirebaseAuth.instance.signInWithEmailAndPassword(
-                            email: emailController.text,
-                            password: passwordController.text, // Changed to passwordController
-                          );
-
-                          // Use FirebaseAuth.instance.currentUser to get the currently signed-in user
-                          User? currentUser = FirebaseAuth.instance.currentUser;
-
-                          if (currentUser!.emailVerified) {
-                            Navigator.of(context).pushReplacementNamed("homePage");
-                          } else {
-                            FirebaseAuth.instance.currentUser!.sendEmailVerification();
-                            AwesomeDialog(
-                              context: context,
-                              dialogType: DialogType.error,
-                              animType: AnimType.rightSlide,
-                              title: 'Error',
-                              desc: 'email not verified.',
-                            ).show();
-                          }
-                        } on FirebaseAuthException catch (e) {
-                          if (e.code == 'user-not-found') {
-                            print('No user found for that email.');
-                            AwesomeDialog(
-                              context: context,
-                              dialogType: DialogType.error,
-                              animType: AnimType.rightSlide,
-                              title: 'Error',
-                              desc: 'No user found for the provided email.',
-                              btnCancelOnPress: () {},
-                              btnOkOnPress: () {},
-                            ).show();
-                          } else if (e.code == 'wrong-password') {
-                            print('Wrong password provided for that user.');
-                            AwesomeDialog(
-                              context: context,
-                              dialogType: DialogType.info,
-                              animType: AnimType.rightSlide,
-                              title: 'Incorrect Password',
-                              desc: 'The password provided is incorrect. Please try again.',
-                            ).show();
-                          }
-                        } catch (e) {
-                          print("Error: $e");
+                      try {
+                        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                          email: emailController.text, // Changed to emailController
+                          password: passwordController.text, // Changed to passwordController
+                        );
+                        Navigator.of(context).pushReplacementNamed("homePage");
+                      } on FirebaseAuthException catch (e) {
+                        if (e.code == 'email-already-in-use') {
+                          print("The email address is already in use by another account.");
+                        } else if (e.code == 'weak-password') {
+                          print("The password provided is too weak.");
+                        } else {
+                          print("Error: ${e.message}");
+                          Navigator.of(context).pushReplacementNamed("homePage");
                         }
+                      } catch (e) {
+                        print("Error: $e");
                       }
                     },
                   ),
                   SizedBox(height: 10),
+
+                  SizedBox(height: 10),
+
                   // text: sign up
-                  Custombuttonauth(
-                    Title: "Sign with google", // Changed title to "Signup"
-                    onPressed: () async {
-                      signInWithGoogle();
-                      Navigator.pushReplacementNamed(context, "homePage");
-                    },
-                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Not a member yet? ',
+                        'Already have an account? ', // Changed text to indicate existing account
                         style: GoogleFonts.robotoCondensed(
                           color: Color.fromARGB(255, 0, 9, 7),
                           fontWeight: FontWeight.bold,
@@ -171,10 +158,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       TextButton(
                         onPressed: () {
-                          Navigator.of(context).pushReplacementNamed("signup");
+                          Navigator.of(context).pushReplacementNamed("login"); // Changed to navigate to login page
                         },
                         child: Text(
-                          'Sign Up now',
+                          'Login', // Changed text to indicate login action
                           style: GoogleFonts.robotoCondensed(
                             color: Color.fromARGB(255, 36, 130, 111),
                             fontWeight: FontWeight.bold,
@@ -190,21 +177,5 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
-  }
-  Future<UserCredential> signInWithGoogle() async {
-    // Trigger the authentication flow
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-    // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
-
-    // Create a new credential
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
-
-    // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 }

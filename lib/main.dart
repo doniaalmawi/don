@@ -1,7 +1,9 @@
+import 'package:compan/Signup.dart';
 import 'package:compan/aboutus.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'firebase_options.dart';
+import 'homescreen.dart';
 import 'loginscreen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Ensure Flutter binding is initialized
@@ -25,7 +27,14 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white,
       ),
       home: const LoginScreen(),
+        routes: {
+          "signup": (context) => Signup(),
+          "login": (context) => LoginScreen(),
+          "homePage": (context) => homepage(), // Make sure this is defined
+
+        }
     );
   }
+
 }
 ////
