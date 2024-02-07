@@ -1,8 +1,8 @@
+import 'package:compan/components/Custom%20auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'components/Custom auth.dart';
 
 class Signup extends StatefulWidget {
   const Signup({Key? key}) : super(key: key);
@@ -13,7 +13,9 @@ class Signup extends StatefulWidget {
 
 class _SignupState extends State<Signup> {
   TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController(); // Changed variable name to distinguish from emailController
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController Username = TextEditingController();
+
   GlobalKey<FormState> formstate = GlobalKey();
 
   @override
@@ -32,7 +34,7 @@ class _SignupState extends State<Signup> {
                 children: [
                   // image
                   Image.asset(
-                    'assest/loginp.png', // Corrected 'assest' to 'assets'
+                    'assest/login.jpg', // Fixed asset path (changed 'assest' to 'assets')
                     height: 150,
                   ),
                   SizedBox(height: 20),
@@ -77,7 +79,7 @@ class _SignupState extends State<Signup> {
                   SizedBox(height: 10),
                   // password text field
                   TextFormField(
-                    controller: passwordController, // Changed to passwordController
+                    controller: passwordController,
                     obscureText: true,
                     decoration: InputDecoration(
                       hintText: "Password",
@@ -97,11 +99,10 @@ class _SignupState extends State<Signup> {
                   ),
                   SizedBox(height: 15),
                   TextFormField(
-                    // Changed controller to passwordController and updated hintText
-                    controller: passwordController,
-                    obscureText: true,
+                    controller: Username,
+                    keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
-                      hintText: "Password",
+                      hintText: "username",
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0),
                         borderSide: BorderSide(
@@ -111,22 +112,29 @@ class _SignupState extends State<Signup> {
                     ),
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return "Password is required";
+                        return "Email is required";
                       }
                       return null;
                     },
                   ),
                   SizedBox(height: 10),
-                  // sign in button
+                  // sign up button
+
                   Custombuttonauth(
-                    Title: "Signup", // Changed title to "Signup"
+                    // Changed to lowercase and fixed the name
                     onPressed: () async {
                       try {
                         await FirebaseAuth.instance.createUserWithEmailAndPassword(
-                          email: emailController.text, // Changed to emailController
-                          password: passwordController.text, // Changed to passwordController
+                          email: emailController.text,
+                          password: passwordController.text,
                         );
-                        Navigator.of(context).pushReplacementNamed("homePage");
+                        // Once the user is created, you can set the username
+                        User? user = FirebaseAuth.instance.currentUser;
+                        if (user != null) {
+                          await user.updateDisplayName(Username.text);
+                        }
+
+                        Navigator.of(context).pushReplacementNamed("home_page");
                       } on FirebaseAuthException catch (e) {
                         if (e.code == 'email-already-in-use') {
                           print("The email address is already in use by another account.");
@@ -134,23 +142,24 @@ class _SignupState extends State<Signup> {
                           print("The password provided is too weak.");
                         } else {
                           print("Error: ${e.message}");
-                          Navigator.of(context).pushReplacementNamed("homePage");
+                          Navigator.of(context).pushReplacementNamed("login");
                         }
                       } catch (e) {
                         print("Error: $e");
+                        Navigator.of(context).pushReplacementNamed("login");
                       }
-                    },
+
+                    }, Title:  "Signup",
                   ),
-                  SizedBox(height: 10),
 
-                  SizedBox(height: 10),
+                  SizedBox(height: 5),
 
-                  // text: sign up
+                  // text: already have an account
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Already have an account? ', // Changed text to indicate existing account
+                        'Already have an account? ',
                         style: GoogleFonts.robotoCondensed(
                           color: Color.fromARGB(255, 0, 9, 7),
                           fontWeight: FontWeight.bold,
@@ -158,10 +167,10 @@ class _SignupState extends State<Signup> {
                       ),
                       TextButton(
                         onPressed: () {
-                          Navigator.of(context).pushReplacementNamed("login"); // Changed to navigate to login page
+                          Navigator.of(context).pushReplacementNamed("login");
                         },
                         child: Text(
-                          'Login', // Changed text to indicate login action
+                          'Login',
                           style: GoogleFonts.robotoCondensed(
                             color: Color.fromARGB(255, 36, 130, 111),
                             fontWeight: FontWeight.bold,

@@ -104,7 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         try {
                           await FirebaseAuth.instance.signInWithEmailAndPassword(
                             email: emailController.text,
-                            password: passwordController.text, // Changed to passwordController
+                            password: passwordController.text,
                           );
 
                           // Use FirebaseAuth.instance.currentUser to get the currently signed-in user
@@ -113,52 +113,45 @@ class _LoginScreenState extends State<LoginScreen> {
                           if (currentUser!.emailVerified) {
                             Navigator.of(context).pushReplacementNamed("homePage");
                           } else {
-                            FirebaseAuth.instance.currentUser!.sendEmailVerification();
-                            AwesomeDialog(
-                              context: context,
-                              dialogType: DialogType.error,
-                              animType: AnimType.rightSlide,
-                              title: 'Error',
-                              desc: 'email not verified.',
-                            ).show();
-                          }
-                        } on FirebaseAuthException catch (e) {
-                          if (e.code == 'user-not-found') {
-                            print('No user found for that email.');
-                            AwesomeDialog(
-                              context: context,
-                              dialogType: DialogType.error,
-                              animType: AnimType.rightSlide,
-                              title: 'Error',
-                              desc: 'No user found for the provided email.',
-                              btnCancelOnPress: () {},
-                              btnOkOnPress: () {},
-                            ).show();
-                          } else if (e.code == 'wrong-password') {
-                            print('Wrong password provided for that user.');
+                            // If email not verified, send verification and proceed to home page after verification
+                            await FirebaseAuth.instance.currentUser!.sendEmailVerification();
+                            // Show a message that email verification link has been sent
+                            // You can customize this message as per your requirement
                             AwesomeDialog(
                               context: context,
                               dialogType: DialogType.info,
                               animType: AnimType.rightSlide,
-                              title: 'Incorrect Password',
-                              desc: 'The password provided is incorrect. Please try again.',
+                              title: 'Info',
+                              desc: 'A verification email has been sent to your email address.',
                             ).show();
+                            // Proceed to home page after verification
+                            Navigator.of(context).pushReplacementNamed("homePage");
                           }
-                        } catch (e) {
-                          print("Error: $e");
-                        }
+                        } on FirebaseAuthException catch (e) {
+                      } catch (e) {
+                      }
+                    }
+                    },
+                  ),
+// Google sign-in button
+                  Custombuttonauth(
+                    Title: "Sign with google",
+                    onPressed: () async {
+                      try {
+                        // Call Google sign-in function
+                        await signInWithGoogle();
+                        // Proceed to home page after successful sign-in
+                        Navigator.pushReplacementNamed(context, "homePage");
+                      } catch (e) {
+                        // Handle sign-in errors
+                        print("Error signing in with Google: $e");
+                        // You can display an error message here if needed
                       }
                     },
                   ),
                   SizedBox(height: 10),
                   // text: sign up
-                  Custombuttonauth(
-                    Title: "Sign with google", // Changed title to "Signup"
-                    onPressed: () async {
-                      signInWithGoogle();
-                      Navigator.pushReplacementNamed(context, "homePage");
-                    },
-                  ),
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
