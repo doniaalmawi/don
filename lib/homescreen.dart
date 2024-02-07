@@ -1,7 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
+import 'loginscreen.dart';
 
-class Homepage extends StatelessWidget {
+class Homepage extends StatefulWidget {
+  @override
+  _HomepageState createState() => _HomepageState();
+}
+
+class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -35,7 +43,7 @@ class Homepage extends StatelessWidget {
                           } else if (value == 'Task 2') {
                             // إجراء 2
                           } else if (value == 'Task 3') {
-                            // إجراء 3
+                            _handleSignOut(context); // Call sign-out method
                           }
                         },
                         itemBuilder: (BuildContext context) {
@@ -48,10 +56,9 @@ class Homepage extends StatelessWidget {
                                     Icons.shopping_cart,
                                     color: const Color.fromARGB(
                                         -23, 36, 130, 111),
-                                  ), // أيقونة العنصر
-                                  SizedBox(
-                                      width: 10), // مسافة بين الأيقونة والنص
-                                  Text('طلباتي الأخيرة'), // النص
+                                  ),
+                                  SizedBox(width: 10),
+                                  Text('طلباتي الأخيرة'),
                                 ],
                               ),
                             ),
@@ -60,13 +67,11 @@ class Homepage extends StatelessWidget {
                               child: Row(
                                 children: [
                                   Icon(
-                                    //fromARGB(-23, 36, 130, 111)
                                     Icons.inbox,
                                     color: Color.fromARGB(-23, 36, 130, 111),
-                                  ), // أيقونة العنصر
-                                  SizedBox(
-                                      width: 10), // مسافة بين الأيقونة والنص
-                                  Text('شحناتي الأخيرة'), // النص
+                                  ),
+                                  SizedBox(width: 10),
+                                  Text('شحناتي الأخيرة'),
                                 ],
                               ),
                             ),
@@ -77,10 +82,9 @@ class Homepage extends StatelessWidget {
                                   Icon(
                                     Icons.exit_to_app,
                                     color: Colors.red,
-                                  ), // أيقونة العنصر
-                                  SizedBox(
-                                      width: 10), // مسافة بين الأيقونة والنص
-                                  Text('تسجيل خروج'), // النص
+                                  ),
+                                  SizedBox(width: 10),
+                                  Text('تسجيل خروج'),
                                 ],
                               ),
                             ),
@@ -143,6 +147,22 @@ class Homepage extends StatelessWidget {
     );
   }
 
+  void _handleSignOut(BuildContext context) async {
+    try {
+      GoogleSignIn googleSignIn = GoogleSignIn();
+      await googleSignIn.disconnect();
+
+      await FirebaseAuth.instance.signOut();
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => LoginScreen()),
+            (Route<dynamic> route) => false,
+      );
+    } catch (e) {
+      print("Error during logout: $e");
+      // Handle the error, show a message, or take appropriate action.
+    }
+  }
+
   Widget buildMenuItem(
       IconData icon,
       String title,
@@ -159,7 +179,7 @@ class Homepage extends StatelessWidget {
           //       builder: (context) => pricepagee(),
           //     ));
         }
-      }, //?
+      },
       child: Container(
         width: 120,
         padding: EdgeInsets.all(10),
@@ -188,37 +208,6 @@ class Homepage extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget buildCurrencyItem(String currency, String rate) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Color.fromARGB(-23, 36, 130, 111),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            currency,
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
-          SizedBox(height: 10),
-          Text(
-            rate,
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: Colors.white,
-            ),
-          ),
-        ],
       ),
     );
   }
