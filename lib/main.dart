@@ -1,5 +1,5 @@
 import 'package:compan/Signup.dart';
-import 'package:compan/aboutus.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'firebase_options.dart';
@@ -26,11 +26,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
       ),
-      home: const LoginScreen(),
+      home: (FirebaseAuth.instance.currentUser != null &&
+          FirebaseAuth.instance.currentUser!.emailVerified)
+          ? Homepage()
+          : LoginScreen(),
         routes: {
           "signup": (context) => Signup(),
           "login": (context) => LoginScreen(),
-          "homePage": (context) => homepage(), // Make sure this is defined
+          "homePage": (context) => Homepage(), // Make sure this is defined
 
         }
     );
